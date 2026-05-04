@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // base API client - all requests go through here
 const api = axios.create({
-  baseURL: 'https://campus-lost-found-platform.onrender.com',
+  baseURL: 'https://campus-lost-found-platform.onrender.com/api',
   headers: { 'Content-Type': 'application/json' }
 });
 
