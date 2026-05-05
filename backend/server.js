@@ -17,7 +17,7 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'http://localhost:5173',
-    'https://campus-lost-found-platform-1.onrender.com'
+    'https://campus-lost-found-platform-1.onrender.com',
   ],
   credentials: true
 }));

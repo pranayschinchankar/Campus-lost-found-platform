@@ -1,71 +1,158 @@
 # 🔍 CampusFind — Lost & Found Portal
 
-A full-stack web platform where students can report lost/found items on campus and connect with rightful owners.
-
-## Tech Stack
-
-- **Frontend**: React 18, React Router v6, Axios, React Hot Toast
-- **Backend**: Node.js, Express.js, PostgreSQL (Render), Multer (image uploads)
-- **Auth**: JWT (JSON Web Tokens) + bcryptjs
+> A full-stack web platform that helps students report, search, and reclaim lost items on campus — fast, simple, and secure.
 
 ---
 
-## Project Structure
+## 🌐 Live Demo
+
+👉 [View Live Project](https://campus-lost-found-portal-frontend.onrender.com)
+
+> ⚠️ **Note:** The backend is hosted on Render's free tier. It may take **10–20 seconds** to wake up on the first load.
+
+> 🧪 **To test the project**, login using — **Email:** `group-project@gmail.com` &nbsp;|&nbsp; **Password:** `group-project`
+
+---
+
+## 📌 Table of Contents
+
+- [About the Project](#-about-the-project)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [API Reference](#-api-reference)
+- [Database Schema](#-database-schema)
+- [Admin Setup](#-admin-setup)
+- [Author](#-author)
+
+---
+
+## 📖 About the Project
+
+CampusFind is a campus-wide Lost & Found portal built for students and staff. Instead of posting on notice boards or WhatsApp groups, users can report a lost or found item in seconds — complete with a photo, location, and description.
+
+Anyone who recognizes their item can send a claim request with a message, and the original poster reviews and approves it. Once approved, the item is automatically marked as **Resolved**.
+
+The platform also includes a full **Admin Panel** for moderating posts and managing users across the campus.
+
+---
+
+## ✨ Features
+
+### 👤 For Students
+- Register and log in with a secure JWT-based account
+- Profile with name, department, and contact number
+- Post lost or found items with image upload (up to 5MB)
+- Browse all active posts with real-time search and category filters
+- Send a claim request with a personal message to the poster
+- Personal dashboard to track posts and submitted claims
+
+### 🤝 For Item Owners
+- View all incoming claim requests for your posts
+- See claimant name, email, department, and contact info
+- Approve or reject each claim individually
+- Approved claims automatically mark the item as Resolved
+
+### 🛡️ For Admins
+- Overview dashboard with live platform stats
+- View and manage all registered users
+- Remove inappropriate or duplicate posts
+- Promote or demote user roles (student ↔ admin)
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, React Router v6, Axios, React Hot Toast |
+| Styling | Custom CSS with CSS Variables (dark theme) |
+| Backend | Node.js, Express.js |
+| Database | PostgreSQL hosted on Render |
+| Authentication | JWT (JSON Web Tokens) + bcryptjs |
+| File Uploads | Multer (local storage, 5MB limit) |
+
+---
+
+## 📁 Project Structure
 
 ```
 lost-found-portal/
+│
 ├── backend/
-│   ├── routes/
-│   │   ├── auth.js        # Register, login, profile
-│   │   ├── items.js       # Lost/found post CRUD
-│   │   ├── claims.js      # Claim request system
-│   │   └── admin.js       # Admin management
 │   ├── middleware/
-│   │   └── auth.js        # JWT auth & admin guard
-│   ├── uploads/           # Uploaded images (auto-created)
-│   ├── db.js              # PostgreSQL connection + table init
-│   ├── server.js          # Express entry point
-│   └── .env               # DB URL and JWT secret
+│   │   └── auth.js           # JWT auth guard & admin-only guard
+│   ├── routes/
+│   │   ├── auth.js           # Register, login, get profile
+│   │   ├── items.js          # Lost/found post CRUD + image upload
+│   │   ├── claims.js         # Submit, view, approve/reject claims
+│   │   └── admin.js          # Admin stats, user & post management
+│   ├── uploads/              # Uploaded item images (auto-created)
+│   ├── db.js                 # PostgreSQL connection + auto table init
+│   ├── server.js             # Express app entry point
+│   ├── .env                  # Environment variables
+│   └── package.json
 │
 └── frontend/
     ├── public/
-    ├── src/
-    │   ├── pages/
-    │   │   ├── Home.js         # Landing page
-    │   │   ├── Login.js        # Login form
-    │   │   ├── Register.js     # Signup form
-    │   │   ├── Browse.js       # Search & filter items
-    │   │   ├── PostItem.js     # Create a new post
-    │   │   ├── ItemDetail.js   # Item view + claim request
-    │   │   ├── Dashboard.js    # User's posts & claims
-    │   │   └── Admin.js        # Admin panel
-    │   ├── components/
-    │   │   ├── Navbar.js
-    │   │   └── ItemCard.js
-    │   ├── context/
-    │   │   └── AuthContext.js  # Global auth state
-    │   ├── api.js              # Axios instance
-    │   ├── App.js              # Routes
-    │   └── index.js
-    └── package.json
+    │   └── index.html
+    └── src/
+        ├── components/
+        │   ├── Navbar.js       # Sticky nav with user dropdown
+        │   └── ItemCard.js     # Reusable item preview card
+        ├── context/
+        │   └── AuthContext.js  # Global auth state (login/logout)
+        ├── pages/
+        │   ├── Home.js         # Landing page with hero & recent posts
+        │   ├── Login.js        # Login form
+        │   ├── Register.js     # Signup form with department select
+        │   ├── Browse.js       # Search, filter & paginate all items
+        │   ├── PostItem.js     # Create a new lost/found post
+        │   ├── ItemDetail.js   # Item view + claim request + owner actions
+        │   ├── Dashboard.js    # User's posts and claim history
+        │   └── Admin.js        # Admin panel (users, posts, stats)
+        ├── api.js              # Axios instance with JWT interceptor
+        ├── App.js              # Route definitions & protected routes
+        ├── index.js            # React entry point
+        └── index.css           # Global styles & CSS variables
 ```
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-### 1. Backend Setup
+### Prerequisites
+
+Make sure you have these installed on your machine:
+
+- [Node.js](https://nodejs.org/) v16 or higher
+- npm (comes with Node.js)
+- A code editor like [VS Code](https://code.visualstudio.com/)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Udit-Gunagi/campus-lost-found-portal.git
+cd lost-found-portal
+```
+
+### 2. Start the Backend
 
 ```bash
 cd backend
 npm install
-# The .env file is already configured with your DB credentials
 npm run dev
 ```
 
-The server starts on `http://localhost:5000`. Tables are auto-created on first run.
+The server will start on **http://localhost:5000**
 
-### 2. Frontend Setup
+> Database tables are created automatically on the first run — no manual SQL needed.
+
+### 3. Start the Frontend
+
+Open a **new terminal window** and run:
 
 ```bash
 cd frontend
@@ -73,63 +160,113 @@ npm install
 npm start
 ```
 
-The React app starts on `http://localhost:3000` and proxies API calls to port 5000.
+The React app will open at **http://localhost:3000**
+
+> The frontend automatically proxies all `/api` requests to port 5000.
 
 ---
 
-## Features
+## 🔐 Environment Variables
 
-### Students
-- Register & login with secure JWT auth
-- Post lost or found items with photo upload
-- Browse and search by keyword or category
-- Send claim requests with a message
-- Dashboard showing their posts and claim history
+The `backend/.env` file is already configured. Here is what each variable does:
 
-### Item Owners
-- View all claim requests on their posts
-- Approve or reject individual claims
-- Approved claim marks item as Resolved
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | PostgreSQL connection string (Render hosted) |
+| `JWT_SECRET` | Secret key used to sign and verify JWT tokens |
+| `PORT` | Port the backend server runs on (default: 5000) |
+| `NODE_ENV` | Environment mode (`development` or `production`) |
 
-### Admins
-- Overview stats dashboard
-- Manage all users (remove, toggle admin role)
-- Manage all posts (remove inappropriate or duplicates)
+If you want to use your own database, replace `DATABASE_URL` with your own PostgreSQL connection string.
 
 ---
 
-## Creating an Admin Account
+## 📡 API Reference
 
-After registering normally, connect to your PostgreSQL database and run:
+### Auth Routes — `/api/auth`
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/register` | No | Create a new student account |
+| POST | `/login` | No | Login and receive JWT token |
+| GET | `/me` | Yes | Get currently logged-in user profile |
+
+### Item Routes — `/api/items`
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/` | No | Get all items (supports search, filter, pagination) |
+| GET | `/:id` | No | Get a single item by ID |
+| POST | `/` | Yes | Create a new lost/found post (with image) |
+| PUT | `/:id` | Yes | Update your own post |
+| DELETE | `/:id` | Yes | Delete your own post |
+| GET | `/user/my-posts` | Yes | Get all posts by the logged-in user |
+
+### Claim Routes — `/api/claims`
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | `/:itemId` | Yes | Submit a claim request for an item |
+| GET | `/item/:itemId` | Yes | Get all claims for your item (owner only) |
+| PATCH | `/:claimId` | Yes | Approve or reject a claim request |
+| GET | `/my-claims` | Yes | Get all claims submitted by logged-in user |
+
+### Admin Routes — `/api/admin`
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/stats` | Admin | Get platform overview statistics |
+| GET | `/users` | Admin | Get list of all registered users |
+| DELETE | `/users/:id` | Admin | Remove a user and all their posts |
+| PATCH | `/users/:id/role` | Admin | Change a user's role (student/admin) |
+| GET | `/items` | Admin | Get all posts on the platform |
+| DELETE | `/items/:id` | Admin | Remove any post from the platform |
+
+---
+
+## 🗄️ Database Schema
+
+Three tables are auto-created on first startup — no manual setup needed.
+
+**users**
+```
+id, name, email, password, department, contact, role, created_at
+```
+
+**items**
+```
+id, user_id, title, description, category, location, type, status, image_url, created_at
+```
+
+**claim_requests**
+```
+id, item_id, claimant_id, message, status, created_at
+```
+
+---
+
+## 🛡️ Admin Setup
+
+After registering a normal student account, run this SQL query on your PostgreSQL database to promote yourself to admin:
 
 ```sql
 UPDATE users SET role = 'admin' WHERE email = 'your@email.com';
 ```
 
-Or use the Admin Panel to promote another user once you're already an admin.
+You can run this using any PostgreSQL client like [pgAdmin](https://www.pgadmin.org/) or [TablePlus](https://tableplus.com/), or directly from the **PostgreSQL Query Results** tab in VS Code.
+
+Once you are an admin, you can promote other users through the Admin Panel inside the app — no more manual SQL needed after that.
 
 ---
 
-## API Endpoints
+## 👨‍💻 Team
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | /api/auth/register | No | Register |
-| POST | /api/auth/login | No | Login |
-| GET | /api/auth/me | Yes | Get profile |
-| GET | /api/items | No | List items |
-| GET | /api/items/:id | No | Item detail |
-| POST | /api/items | Yes | Create post |
-| PUT | /api/items/:id | Yes | Update post |
-| DELETE | /api/items/:id | Yes | Delete post |
-| GET | /api/items/user/my-posts | Yes | My posts |
-| POST | /api/claims/:itemId | Yes | Submit claim |
-| GET | /api/claims/item/:itemId | Yes | Get item claims |
-| PATCH | /api/claims/:claimId | Yes | Approve/reject |
-| GET | /api/claims/my-claims | Yes | My claims |
-| GET | /api/admin/stats | Admin | Dashboard stats |
-| GET | /api/admin/users | Admin | All users |
-| DELETE | /api/admin/users/:id | Admin | Remove user |
-| GET | /api/admin/items | Admin | All items |
-| DELETE | /api/admin/items/:id | Admin | Remove item |
-| PATCH | /api/admin/users/:id/role | Admin | Change role |
+Built as a group project during a **Glowlogics Solutions Pvt Ltd Internship**.
+
+- Pranay S Chinchankar
+- Udit U Gunagi
+- Sahil S Vernekar
+
+---
+
+> **Note:** This project uses a shared Render PostgreSQL instance. For production use, set up your own dedicated database and update `DATABASE_URL` in the `.env` file accordingly.
